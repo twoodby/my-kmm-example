@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
+    kotlin("plugin.serialization") version "1.4.0"
     id("com.android.library")
 }
 
@@ -21,16 +22,34 @@ kotlin {
             baseName = "myshared"
         }
     }
-    
+
     sourceSets {
-        val commonMain by getting
+
+        // COMMON
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9-native-mt-2")
+                implementation("io.ktor:ktor-client-core:1.4.1")
+                implementation("io.ktor:ktor-client-json:1.4.1")
+                implementation("io.ktor:ktor-client-serialization:1.4.1")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+
+        // ANDROID
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-android:1.4.1")
+            }
+        }
         val androidTest by getting
+
+
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -39,6 +58,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:1.4.1")
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
