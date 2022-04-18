@@ -1,0 +1,5 @@
+target 'mykmmexample' do
+  use_frameworks!
+  platform :ios, '14.1'
+  pod 'myshared', :path => '../myshared'
+end
